@@ -15,8 +15,131 @@ execute:
 Se agrega cuando se terminen todos los ejercicios
 
 
-# Ejercicio 1
+# Ejercicio 1 — Alertas por ventana móvil
+
+## Carga de datos y parámetros
+
+```{r}
+library(readr)
+library(dplyr)
+
+source("cod/funciones_tarea3.R")
+
+transacciones <- read_delim(
+  "data/transacciones_2025.csv",
+  delim = ";",
+  locale = locale(encoding = "UTF-8"),
+  show_col_types = FALSE
+)
+
+parametros <- read.csv2(
+  "config/parametros_tarea3.csv",
+  fileEncoding = "UTF-8"
+)
+
+ventana <- as.integer(
+  parametros$valor[parametros$parametro == "ventana"]
+)
+
+k.alerta <- as.numeric(
+  parametros$valor[parametros$parametro == "k.alerta"]
+)
+```
+
+## Cálculo de alertas
+
+```{r}
+resultado.ej1 <- alerta.movil(
+  transacciones,
+  ventana,
+  k.alerta
+)
+
+resultado.1a <- sum(resultado.ej1$alerta, na.rm = TRUE)
+
+fechas.alerta <- resultado.ej1$fecha[
+  !is.na(resultado.ej1$alerta) & resultado.ej1$alerta
+]
+
+resultado.1b <- if (length(fechas.alerta) > 0) {
+  min(fechas.alerta)
+} else {
+  as.Date(NA)
+}
+
+resultado.comun <- alerta.movil(transacciones, 7, 2)
+
+resultado.1c <- sum(
+  resultado.comun$alerta,
+  na.rm = TRUE
+)
+```
+
+
+
+```{r}
+#| echo: false
+#| results: asis
+library(ggplot2)
+
+grafico.ej1 <- ggplot(
+  resultado.ej1,
+  aes(x = fecha, y = n.tx)
+) +
+  geom_line(
+    color = "steelblue",
+    linewidth = 0.6
+  ) +
+  geom_point(
+    data = subset(resultado.ej1, alerta %in% TRUE),
+    color = "red",
+    size = 2
+  ) +
+  labs(
+    title = "Alertas por ventana móvil - 2025",
+    subtitle = "Los puntos rojos representan días con alerta",
+    x = "Fecha",
+    y = "Número de transacciones"
+  ) +
+  theme_minimal()
+
+grafico.ej1
+
+
+dir.create(
+  "info/figuras",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+ggsave(
+  filename = "info/figuras/ej1_alertas.png",
+  plot = grafico.ej1,
+  width = 10,
+  height = 5,
+  dpi = 300
+)
+
+
+```
+
+
+
+## Resultados
+
+```{r}
+#| echo: false
+#| results: asis
+cat("RESULTADO_1A =", resultado.1a, "\n")
+cat("RESULTADO_1B =", format(resultado.1b, "%Y-%m-%d"), "\n")
+cat("RESULTADO_1C =", resultado.1c, "\n")
+```
+
+
+
 
 # Ejercicio 2
+
+
 
 # Ejercicio 3
