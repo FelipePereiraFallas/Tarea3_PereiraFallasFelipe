@@ -1,0 +1,1 @@
+Contiene los parámetros de configuración que se generan a partir del carné.

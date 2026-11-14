@@ -1,0 +1,1 @@
+Contiene los gráficos solicitados de la tarea que se guardan en /figuras.
