@@ -84,4 +84,107 @@ cat("RESULTADO_2B =", resultado.2b, "\n")
 cat("RESULTADO_2C =", resultado.2c, "\n")
 cat("RESULTADO_2D =", resultado.2d, "\n")
 ```
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+library(ggplot2)
+library(dplyr)
+
+# Filtrar el canal personalizado
+datos.grafico <- transacciones |>
+  filter(
+    canal == canal.benford,
+    is.finite(monto_crc),
+    monto_crc > 0
+  )
+
+# Obtener el primer dígito significativo
+datos.grafico <- datos.grafico |>
+  mutate(
+    digito = floor(
+      monto_crc / 10^floor(log10(monto_crc))
+    )
+  )
+
+# Calcular las frecuencias observadas
+frecuencias <- tabulate(
+  datos.grafico$digito,
+  nbins = 9
+)
+
+# Construir tabla de comparación
+tabla.benford <- data.frame(
+  digito = 1:9,
+  observado = frecuencias / sum(frecuencias),
+  teorico = log10(1 + 1 / (1:9))
+)
+
+# Crear el gráfico
+grafico.ej2 <- ggplot(
+  tabla.benford,
+  aes(x = digito)
+) +
+  geom_col(
+    aes(y = observado, fill = "Observado"),
+    width = 0.65
+  ) +
+  geom_line(
+    aes(y = teorico, color = "Benford"),
+    linewidth = 1,
+    linetype = "dashed"
+  ) +
+  geom_point(
+    aes(y = teorico, color = "Benford"),
+    size = 2
+  ) +
+  scale_x_continuous(breaks = 1:9) +
+  scale_y_continuous(
+    labels = scales::label_percent(accuracy = 1)
+  ) +
+  scale_fill_manual(
+    values = c("Observado" = "steelblue"),
+    name = NULL
+  ) +
+  scale_color_manual(
+    values = c("Benford" = "red"),
+    name = NULL
+  ) +
+  labs(
+    title = "Ley de Benford: distribución de primeros dígitos",
+    subtitle = paste("Canal:", canal.benford),
+    x = "Primer dígito significativo",
+    y = "Frecuencia relativa"
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom"
+  )
+
+grafico.ej2
+
+
+dir.create(
+  "info/figuras",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+ggsave(
+  filename = "info/figuras/ej2_benford.png",
+  plot = grafico.ej2,
+  width = 10,
+  height = 6,
+  dpi = 300
+)
+
+
+```
+
+
+
+
+
 # Ejercicio 3
