@@ -75,13 +75,68 @@ resultado.1c <- sum(
 )
 ```
 
+
+
+```{r}
+#| echo: false
+#| results: asis
+library(ggplot2)
+
+grafico.ej1 <- ggplot(
+  resultado.ej1,
+  aes(x = fecha, y = n.tx)
+) +
+  geom_line(
+    color = "steelblue",
+    linewidth = 0.6
+  ) +
+  geom_point(
+    data = subset(resultado.ej1, alerta %in% TRUE),
+    color = "red",
+    size = 2
+  ) +
+  labs(
+    title = "Alertas por ventana móvil - 2025",
+    subtitle = "Los puntos rojos representan días con alerta",
+    x = "Fecha",
+    y = "Número de transacciones"
+  ) +
+  theme_minimal()
+
+grafico.ej1
+
+
+dir.create(
+  "info/figuras",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+ggsave(
+  filename = "info/figuras/ej1_alertas.png",
+  plot = grafico.ej1,
+  width = 10,
+  height = 5,
+  dpi = 300
+)
+
+
+```
+
+
+
 ## Resultados
 
 ```{r}
+#| echo: false
+#| results: asis
 cat("RESULTADO_1A =", resultado.1a, "\n")
 cat("RESULTADO_1B =", format(resultado.1b, "%Y-%m-%d"), "\n")
 cat("RESULTADO_1C =", resultado.1c, "\n")
 ```
+
+
+
 
 # Ejercicio 2
 
