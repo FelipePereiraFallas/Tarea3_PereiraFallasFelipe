@@ -3,12 +3,6 @@
 # Funciones para resolver los tres ejercicios
 # ============================================================
 
-# ------------------------------------------------------------
-# Función: benford.mad
-# Recibe: x, vector numérico de montos.
-# Devuelve: MAD respecto a la distribución de Benford.
-# ------------------------------------------------------------
-
 benford.mad <- function(x) {
   
   # Conservar únicamente montos positivos y válidos
@@ -33,4 +27,42 @@ benford.mad <- function(x) {
   mad <- mean(abs(p - b))
   
   return(mad)
+}
+
+benford.canton <- function(df, canal, cantones) {
+  
+  library(dplyr)
+  
+  # Filtrar el canal solicitado
+  datos.canal <- df |>
+    filter(.data$canal == .env$canal)
+  
+  # Calcular MAD para cada cantón
+  resultados <- datos.canal |>
+    group_by(cod_canton) |>
+    summarise(
+      n = sum(is.finite(monto_crc) & monto_crc > 0),
+      mad = benford.mad(monto_crc),
+      .groups = "drop"
+    )
+  
+  # Incorporar los nombres de los cantones
+  resultados <- resultados |>
+    left_join(cantones, by = "cod_canton")
+  
+  # Clasificar según Nigrini
+  resultados <- resultados |>
+    mutate(
+      clase = case_when(
+        is.na(mad) ~ NA_character_,
+        mad <= 0.006 ~ "Conformidad cercana",
+        mad <= 0.012 ~ "Conformidad aceptable",
+        mad <= 0.015 ~ "Conformidad marginal",
+        TRUE ~ "No conformidad"
+      )
+    ) |>
+    select(cod_canton, canton, n, mad, clase) |>
+    arrange(desc(mad))
+  
+  return(resultados)
 }
