@@ -310,3 +310,145 @@ Los cantones con mayor MAD presentan cantidades relativamente pequeñas de trans
 
 
 # Ejercicio 3
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(dplyr)
+library(readr)
+
+source("cod/funciones_tarea3.R")
+
+# Cargar transacciones
+transacciones <- read_delim(
+  "data/transacciones_2025.csv",
+  delim = ";",
+  locale = locale(encoding = "UTF-8"),
+  show_col_types = FALSE
+)
+
+# Leer parámetros personalizados
+parametros <- read_delim(
+  "config/parametros_tarea3.csv",
+  delim = ";",
+  col_types = cols(.default = col_character()),
+  show_col_types = FALSE
+)
+
+tasa.anual <- as.numeric(
+  parametros$valor[parametros$parametro == "tasa.anual"]
+)
+
+canal.interes <- parametros$valor[
+  parametros$parametro == "canal.interes"
+]
+
+# Resultados personalizados
+resultado.ej3 <- valor.acumulado(
+  transacciones,
+  tasa.anual,
+  canal.interes
+)
+
+resultado.3a <- resultado.ej3$va
+resultado.3b <- resultado.ej3$interes
+
+# Resultado común
+resultado.3c <- valor.acumulado(
+  transacciones,
+  0.06,
+  "App"
+)$va
+
+cat("RESULTADO_3A =", sprintf("%.2f", resultado.3a), "\n")
+cat("RESULTADO_3B =", sprintf("%.2f", resultado.3b), "\n")
+cat("RESULTADO_3C =", sprintf("%.2f", resultado.3c), "\n")
+```
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+
+# Preparar los datos
+datos.grafico.ej3 <- resultado.ej3$tabla |>
+  mutate(
+    valor.acumulado = monto * factor
+  ) |>
+  select(mes, monto, valor.acumulado) |>
+  pivot_longer(
+    cols = c(monto, valor.acumulado),
+    names_to = "tipo",
+    values_to = "valor"
+  ) |>
+  mutate(
+    tipo = recode(
+      tipo,
+      monto = "Depósito mensual",
+      valor.acumulado = "Valor al 31 de diciembre"
+    )
+  )
+
+# Crear el gráfico
+grafico.ej3 <- ggplot(
+  datos.grafico.ej3,
+  aes(
+    x = factor(mes),
+    y = valor,
+    fill = tipo
+  )
+) +
+  geom_col(
+    position = position_dodge(width = 0.8),
+    width = 0.7
+  ) +
+  scale_fill_manual(
+    values = c(
+      "Depósito mensual" = "steelblue",
+      "Valor al 31 de diciembre" = "darkorange"
+    )
+  ) +
+  scale_y_continuous(
+    labels = scales::label_number(
+      big.mark = ",",
+      accuracy = 1
+    )
+  ) +
+  labs(
+    title = "Depósitos mensuales y valor acumulado",
+    subtitle = paste(
+      "Canal:", canal.interes,
+      "| Tasa anual:", tasa.anual * 100, "%"
+    ),
+    x = "Mes de 2025",
+    y = "Monto (CRC)",
+    fill = NULL
+  ) +
+  theme_minimal() +
+  theme(
+    legend.position = "bottom",
+    axis.text.x = element_text(size = 9)
+  )
+
+grafico.ej3
+
+dir.create(
+  "info/figuras",
+  recursive = TRUE,
+  showWarnings = FALSE
+)
+
+ggsave(
+  filename = "info/figuras/ej3_interes.png",
+  plot = grafico.ej3,
+  width = 11,
+  height = 6,
+  dpi = 300
+)
+
+```
