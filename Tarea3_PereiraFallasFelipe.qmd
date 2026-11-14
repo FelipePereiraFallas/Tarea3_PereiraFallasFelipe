@@ -15,8 +15,76 @@ execute:
 Se agrega cuando se terminen todos los ejercicios
 
 
-# Ejercicio 1
+# Ejercicio 1 — Alertas por ventana móvil
+
+## Carga de datos y parámetros
+
+```{r}
+library(readr)
+library(dplyr)
+
+source("cod/funciones_tarea3.R")
+
+transacciones <- read_delim(
+  "data/transacciones_2025.csv",
+  delim = ";",
+  locale = locale(encoding = "UTF-8"),
+  show_col_types = FALSE
+)
+
+parametros <- read.csv2(
+  "config/parametros_tarea3.csv",
+  fileEncoding = "UTF-8"
+)
+
+ventana <- as.integer(
+  parametros$valor[parametros$parametro == "ventana"]
+)
+
+k.alerta <- as.numeric(
+  parametros$valor[parametros$parametro == "k.alerta"]
+)
+```
+
+## Cálculo de alertas
+
+```{r}
+resultado.ej1 <- alerta.movil(
+  transacciones,
+  ventana,
+  k.alerta
+)
+
+resultado.1a <- sum(resultado.ej1$alerta, na.rm = TRUE)
+
+fechas.alerta <- resultado.ej1$fecha[
+  !is.na(resultado.ej1$alerta) & resultado.ej1$alerta
+]
+
+resultado.1b <- if (length(fechas.alerta) > 0) {
+  min(fechas.alerta)
+} else {
+  as.Date(NA)
+}
+
+resultado.comun <- alerta.movil(transacciones, 7, 2)
+
+resultado.1c <- sum(
+  resultado.comun$alerta,
+  na.rm = TRUE
+)
+```
+
+## Resultados
+
+```{r}
+cat("RESULTADO_1A =", resultado.1a, "\n")
+cat("RESULTADO_1B =", format(resultado.1b, "%Y-%m-%d"), "\n")
+cat("RESULTADO_1C =", resultado.1c, "\n")
+```
 
 # Ejercicio 2
+
+
 
 # Ejercicio 3
