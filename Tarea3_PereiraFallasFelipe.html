@@ -129,95 +129,94 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="hoja-de-respuestas" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Hoja de Respuestas</h1>
-<p>Se agrega cuando se terminen todos los ejercicios</p>
+<p>A continuación se presentan los resultados de los tres ejercicios. Los cálculos se realizan con R utilizando los parámetros personalizados para el carné <code>C4I307</code>.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>RESULTADO_1A =44
+RESULTADO_1B =2025-01-12
+RESULTADO_1C =20
+RESULTADO_2A =0.0033
+RESULTADO_2B =Montes De Oro
+RESULTADO_2C =10
+RESULTADO_2D =Grecia
+RESULTADO_3A =13793542488.39
+RESULTADO_3B =306501288.39
+RESULTADO_3C =13854219764.29</code></pre>
+</div>
+</div>
 </section>
 <section id="ejercicio-1-alertas-por-ventana-móvil" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Ejercicio 1 — Alertas por ventana móvil</h1>
 <section id="carga-de-datos-y-parámetros" class="level2" data-number="2.1">
 <h2 data-number="2.1" class="anchored" data-anchor-id="carga-de-datos-y-parámetros"><span class="header-section-number">2.1</span> Carga de datos y parámetros</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"cod/funciones_tarea3.R"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>transacciones <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/transacciones_2025.csv"</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">delim =</span> <span class="st">";"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"UTF-8"</span>),</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>parametros <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"config/parametros_tarea3.csv"</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">fileEncoding =</span> <span class="st">"UTF-8"</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>ventana <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  parametros<span class="sc">$</span>valor[parametros<span class="sc">$</span>parametro <span class="sc">==</span> <span class="st">"ventana"</span>]</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>k.alerta <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  parametros<span class="sc">$</span>valor[parametros<span class="sc">$</span>parametro <span class="sc">==</span> <span class="st">"k.alerta"</span>]</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"cod/funciones_tarea3.R"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>transacciones <span class="ot">&lt;-</span> <span class="fu">read_delim</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">"data/transacciones_2025.csv"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">delim =</span> <span class="st">";"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">locale =</span> <span class="fu">locale</span>(<span class="at">encoding =</span> <span class="st">"UTF-8"</span>),</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">show_col_types =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>parametros <span class="ot">&lt;-</span> <span class="fu">read.csv2</span>(</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="st">"config/parametros_tarea3.csv"</span>,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="at">fileEncoding =</span> <span class="st">"UTF-8"</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>ventana <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  parametros<span class="sc">$</span>valor[parametros<span class="sc">$</span>parametro <span class="sc">==</span> <span class="st">"ventana"</span>]</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>k.alerta <span class="ot">&lt;-</span> <span class="fu">as.numeric</span>(</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  parametros<span class="sc">$</span>valor[parametros<span class="sc">$</span>parametro <span class="sc">==</span> <span class="st">"k.alerta"</span>]</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="cálculo-de-alertas" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="cálculo-de-alertas"><span class="header-section-number">2.2</span> Cálculo de alertas</h2>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>resultado.ej1 <span class="ot">&lt;-</span> <span class="fu">alerta.movil</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  transacciones,</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  ventana,</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  k.alerta</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>resultado<span class="fl">.1</span>a <span class="ot">&lt;-</span> <span class="fu">sum</span>(resultado.ej1<span class="sc">$</span>alerta, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>fechas.alerta <span class="ot">&lt;-</span> resultado.ej1<span class="sc">$</span>fecha[</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="sc">!</span><span class="fu">is.na</span>(resultado.ej1<span class="sc">$</span>alerta) <span class="sc">&amp;</span> resultado.ej1<span class="sc">$</span>alerta</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>]</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>resultado<span class="fl">.1</span>b <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">length</span>(fechas.alerta) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(fechas.alerta)</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.Date</span>(<span class="cn">NA</span>)</span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>resultado.comun <span class="ot">&lt;-</span> <span class="fu">alerta.movil</span>(transacciones, <span class="dv">7</span>, <span class="dv">2</span>)</span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>resultado<span class="fl">.1</span>c <span class="ot">&lt;-</span> <span class="fu">sum</span>(</span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  resultado.comun<span class="sc">$</span>alerta,</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>resultado.ej1 <span class="ot">&lt;-</span> <span class="fu">alerta.movil</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  transacciones,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  ventana,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  k.alerta</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>resultado<span class="fl">.1</span>a <span class="ot">&lt;-</span> <span class="fu">sum</span>(resultado.ej1<span class="sc">$</span>alerta, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>fechas.alerta <span class="ot">&lt;-</span> resultado.ej1<span class="sc">$</span>fecha[</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="sc">!</span><span class="fu">is.na</span>(resultado.ej1<span class="sc">$</span>alerta) <span class="sc">&amp;</span> resultado.ej1<span class="sc">$</span>alerta</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>resultado<span class="fl">.1</span>b <span class="ot">&lt;-</span> <span class="cf">if</span> (<span class="fu">length</span>(fechas.alerta) <span class="sc">&gt;</span> <span class="dv">0</span>) {</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">min</span>(fechas.alerta)</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.Date</span>(<span class="cn">NA</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>resultado.comun <span class="ot">&lt;-</span> <span class="fu">alerta.movil</span>(transacciones, <span class="dv">7</span>, <span class="dv">2</span>)</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>resultado<span class="fl">.1</span>c <span class="ot">&lt;-</span> <span class="fu">sum</span>(</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>  resultado.comun<span class="sc">$</span>alerta,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">na.rm =</span> <span class="cn">TRUE</span></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p><img src="Tarea3_PereiraFallasFelipe_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+<p><img src="Tarea3_PereiraFallasFelipe_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
 </section>
 <section id="resultados" class="level2" data-number="2.3">
 <h2 data-number="2.3" class="anchored" data-anchor-id="resultados"><span class="header-section-number">2.3</span> Resultados</h2>
-<p>RESULTADO_1A = 44 RESULTADO_1B = 2025-01-12 RESULTADO_1C = 20</p>
 </section>
 </section>
 <section id="ejercicio-2" class="level1" data-number="3">
 <h1 data-number="3"><span class="header-section-number">3</span> Ejercicio 2</h1>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>RESULTADO_2A = 0.0033 </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>RESULTADO_2B = Montes De Oro </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>RESULTADO_2C = 10 </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>RESULTADO_2D = Grecia </code></pre>
-</div>
-</div>
-<div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Tarea3_PereiraFallasFelipe_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Tarea3_PereiraFallasFelipe_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -227,21 +226,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="ejercicio-3" class="level1" data-number="4">
 <h1 data-number="4"><span class="header-section-number">4</span> Ejercicio 3</h1>
 <div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>RESULTADO_3A = 13793542488.39 </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>RESULTADO_3B = 306501288.39 </code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>RESULTADO_3C = 13854219764.29 </code></pre>
-</div>
-</div>
-<div class="cell">
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Tarea3_PereiraFallasFelipe_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="Tarea3_PereiraFallasFelipe_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

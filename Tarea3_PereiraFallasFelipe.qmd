@@ -11,8 +11,149 @@ execute:
   message: false
 ---
 
+```{r}
+#| label: calculos-iniciales
+#| include: false
+
+library(readr)
+library(dplyr)
+
+source("cod/funciones_tarea3.R")
+
+# Cargar los datos
+transacciones <- read_delim(
+  "data/transacciones_2025.csv",
+  delim = ";",
+  locale = locale(encoding = "UTF-8"),
+  show_col_types = FALSE
+)
+
+cantones <- read_csv(
+  "data/cantones.csv",
+  show_col_types = FALSE
+)
+
+parametros <- read_delim(
+  "config/parametros_tarea3.csv",
+  delim = ";",
+  col_types = cols(.default = col_character()),
+  show_col_types = FALSE
+)
+
+# Asegurar tipos compatibles
+transacciones$cod_canton <- as.character(transacciones$cod_canton)
+cantones$cod_canton <- as.character(cantones$cod_canton)
+
+# Parámetros personalizados
+ventana <- as.integer(
+  parametros$valor[parametros$parametro == "ventana"]
+)
+
+k.alerta <- as.numeric(
+  parametros$valor[parametros$parametro == "k.alerta"]
+)
+
+canal.benford <- parametros$valor[
+  parametros$parametro == "canal.benford"
+]
+
+tasa.anual <- as.numeric(
+  parametros$valor[parametros$parametro == "tasa.anual"]
+)
+
+canal.interes <- parametros$valor[
+  parametros$parametro == "canal.interes"
+]
+
+#Ejercicio 1
+resultado.ej1 <- alerta.movil(
+  transacciones,
+  ventana,
+  k.alerta
+)
+
+resultado.1a <- sum(resultado.ej1$alerta, na.rm = TRUE)
+
+fechas.alerta <- resultado.ej1$fecha[
+  !is.na(resultado.ej1$alerta) & resultado.ej1$alerta
+]
+
+resultado.1b <- if (length(fechas.alerta) > 0) {
+  min(fechas.alerta)
+} else {
+  as.Date(NA)
+}
+
+resultado.comun <- alerta.movil(transacciones, 7, 2)
+
+resultado.1c <- sum(resultado.comun$alerta, na.rm = TRUE)
+
+#Ejercicio 3
+
+datos.canal <- transacciones |>
+  filter(canal == canal.benford)
+
+resultado.2a <- benford.mad(datos.canal$monto_crc)
+
+resultado.ej2 <- benford.canton(
+  transacciones,
+  canal.benford,
+  cantones
+)
+
+resultado.2b <- resultado.ej2$canton[1]
+resultado.2c <- sum(resultado.ej2$mad > 0.015, na.rm = TRUE)
+
+resultado.web <- benford.canton(
+  transacciones,
+  "Web",
+  cantones
+)
+
+resultado.2d <- resultado.web$canton[1]
+
+# Ejercicio 3
+
+resultado.ej3 <- valor.acumulado(
+  transacciones,
+  tasa.anual,
+  canal.interes
+)
+
+resultado.3a <- resultado.ej3$va
+resultado.3b <- resultado.ej3$interes
+
+resultado.3c <- valor.acumulado(
+  transacciones,
+  0.06,
+  "App"
+)$va
+```
+
+
+
 # Hoja de Respuestas
-Se agrega cuando se terminen todos los ejercicios
+A continuación se presentan los resultados de los tres ejercicios.
+Los cálculos se realizan con R utilizando los parámetros personalizados para el carné `C4I307`.
+
+```{r}
+#| echo: false
+#| results: markup
+
+cat(
+  "RESULTADO_1A =", resultado.1a, "\n",
+  "RESULTADO_1B =", format(resultado.1b, "%Y-%m-%d"), "\n",
+  "RESULTADO_1C =", resultado.1c, "\n",
+  "RESULTADO_2A =", sprintf("%.4f", resultado.2a), "\n",
+  "RESULTADO_2B =", resultado.2b, "\n",
+  "RESULTADO_2C =", resultado.2c, "\n",
+  "RESULTADO_2D =", resultado.2d, "\n",
+  "RESULTADO_3A =", sprintf("%.2f", resultado.3a), "\n",
+  "RESULTADO_3B =", sprintf("%.2f", resultado.3b), "\n",
+  "RESULTADO_3C =", sprintf("%.2f", resultado.3c), "\n",
+  sep = ""
+)
+```
 
 
 # Ejercicio 1 — Alertas por ventana móvil
@@ -128,11 +269,7 @@ ggsave(
 ## Resultados
 
 ```{r}
-#| echo: false
-#| results: asis
-cat("RESULTADO_1A =", resultado.1a, "\n")
-cat("RESULTADO_1B =", format(resultado.1b, "%Y-%m-%d"), "\n")
-cat("RESULTADO_1C =", resultado.1c, "\n")
+
 ```
 
 
@@ -199,11 +336,6 @@ resultado.web <- benford.canton(
 
 resultado.2d <- resultado.web$canton[1]
 
-# Mostrar resultados
-cat("RESULTADO_2A =", sprintf("%.4f", resultado.2a), "\n")
-cat("RESULTADO_2B =", resultado.2b, "\n")
-cat("RESULTADO_2C =", resultado.2c, "\n")
-cat("RESULTADO_2D =", resultado.2d, "\n")
 ```
 
 ```{r}
@@ -361,9 +493,6 @@ resultado.3c <- valor.acumulado(
   "App"
 )$va
 
-cat("RESULTADO_3A =", sprintf("%.2f", resultado.3a), "\n")
-cat("RESULTADO_3B =", sprintf("%.2f", resultado.3b), "\n")
-cat("RESULTADO_3C =", sprintf("%.2f", resultado.3c), "\n")
 ```
 
 ```{r}
