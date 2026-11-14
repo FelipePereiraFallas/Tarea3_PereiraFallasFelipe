@@ -1,0 +1,25 @@
+# Archivos innecesarios y temporales de RStudio
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+
+# Archivos temporales de Quarto
+.quarto/
+*_files/
+*.utf8.md
+*.knit.md
+
+# Base de datos
+/base/
+
+# Datos generados
+/data/*.csv
+
+# Parametros generados
+/config/parametros_tarea3.csv
+
+# Archivos temporales
+*.tmp
+*.log
+~$*.xlsx
