@@ -18,5 +18,70 @@ Se agrega cuando se terminen todos los ejercicios
 # Ejercicio 1
 
 # Ejercicio 2
+```{r}
+#| echo: false
 
+library(dplyr)
+library(readr)
+
+source("cod/funciones_tarea3.R")
+
+# Cargar datos
+transacciones <- read_delim(
+  "data/transacciones_2025.csv",
+  delim = ";",
+  show_col_types = FALSE
+)
+
+cantones <- read_csv(
+  "data/cantones.csv",
+  show_col_types = FALSE
+)
+
+# Cargar parámetros
+parametros <- read_delim(
+  "config/parametros_tarea3.csv",
+  delim = ";",
+  col_types = cols(.default = col_character())
+)
+
+canal.benford <- parametros$valor[
+  parametros$parametro == "canal.benford"
+]
+
+# Asegurar tipos compatibles
+transacciones$cod_canton <- as.character(transacciones$cod_canton)
+cantones$cod_canton <- as.character(cantones$cod_canton)
+
+# Resultado 2A
+datos.canal <- transacciones |>
+  filter(canal == canal.benford)
+
+resultado.2a <- benford.mad(datos.canal$monto_crc)
+
+# Resultados 2B y 2C
+resultado.ej2 <- benford.canton(
+  transacciones,
+  canal.benford,
+  cantones
+)
+
+resultado.2b <- resultado.ej2$canton[1]
+resultado.2c <- sum(resultado.ej2$mad > 0.015, na.rm = TRUE)
+
+# Resultado 2D
+resultado.web <- benford.canton(
+  transacciones,
+  "Web",
+  cantones
+)
+
+resultado.2d <- resultado.web$canton[1]
+
+# Mostrar resultados
+cat("RESULTADO_2A =", sprintf("%.4f", resultado.2a), "\n")
+cat("RESULTADO_2B =", resultado.2b, "\n")
+cat("RESULTADO_2C =", resultado.2c, "\n")
+cat("RESULTADO_2D =", resultado.2d, "\n")
+```
 # Ejercicio 3
