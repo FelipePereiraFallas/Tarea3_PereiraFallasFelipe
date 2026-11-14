@@ -1,0 +1,22 @@
+---
+title: "Tarea 3 — Herramientas de Ciencia de Datos I"
+author: "Felipe Pereira Fallas-C4I307"
+format:
+  html:
+    toc: true
+    number-sections: true
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+# Hoja de Respuestas
+Se agrega cuando se terminen todos los ejercicios
+
+
+# Ejercicio 1
+
+# Ejercicio 2
+
+# Ejercicio 3
