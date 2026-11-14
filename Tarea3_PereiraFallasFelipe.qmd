@@ -179,9 +179,8 @@ ggsave(
   height = 6,
   dpi = 300
 )
-
-
 ```
+Los cantones con mayor MAD presentan cantidades relativamente pequeñas de transacciones (por ejemplo, Guácimo con 151), por lo que las desviaciones respecto a Benford podrían deberse a variabilidad muestral y no constituyen evidencia suficiente de fraude.
 
 
 
